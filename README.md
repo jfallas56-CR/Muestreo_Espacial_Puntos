@@ -13,11 +13,6 @@
 
 Implements four spatial sampling methods (Systematic Hilbert, Random, Hilbert Groups, K-Means) using the Hilbert Curve. / Implementa cuatro métodos de muestreo espacial (Sistemático Hilbert, Aleatorio, Grupos Hilbert, K-Medias) usando la Curva de Hilbert.
 
-Implementa cuatro métodos de muestreo espacial a partir de una capa de puntos
-(marco muestral) y un área poligonal de estudio. Usa la Curva de Hilbert para
-crear un ordenamiento espacial que mejora la distribución y representatividad
-de las muestras sistemáticas y estratificadas.  
-
 ---
 
 ## Métodos de Muestreo
