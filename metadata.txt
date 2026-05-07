@@ -1,41 +1,88 @@
 [general]
-name=Muestreo Espacial de Puntos
+name=Muestreo Espacial de Puntos / Spatial Point Sampling
 qgisMinimumVersion=3.28
-description=Muestreo espacial de puntos con Curva de Hilbert, Aleatorio, Grupos Hilbert y K-Medias. Incluye corrección de borde, distancia mínima, IVMC y reporte HTML.
+description=Implements four spatial sampling methods (Systematic Hilbert, Simple Random, Hilbert Groups, K-Means) using the Hilbert Curve for ordered, representative sampling. Implementa cuatro métodos de muestreo espacial usando la Curva de Hilbert.
 version=1.0.0
 author=Jorge Fallas
 email=jfallas56@gmail.com
 
-about=Complemento QGIS que implementa cuatro estrategias de muestreo espacial
+about=── ESPAÑOL ──────────────────────────────────────────────────────────────
+
+    Complemento QGIS que implementa cuatro estrategias de muestreo espacial
     a partir de una capa de puntos (marco muestral) y un área poligonal.
+    Usa la Curva de Hilbert para crear un ordenamiento espacial que mejora
+    la distribución y representatividad de las muestras sistemáticas y
+    estratificadas.
 
     Métodos de muestreo:
-      - Sistemático Hilbert (SH): selección sistemática a lo largo de la curva de Hilbert.
+      - Sistemático Hilbert (SH): selección a intervalos regulares a lo
+        largo de la curva. Produce patrones dispersos (IVMC > 1,2).
       - Aleatorio Simple (AL): muestreo aleatorio sin reemplazo.
-      - Grupos Hilbert (GH): estratificación 1D basada en el orden de Hilbert.
-      - Grupos K-Medias (KM): agrupamiento espacial 2D (requiere scikit-learn).
+      - Grupos Hilbert (GH): estratificación 1D sobre el orden de Hilbert.
+        k=0 calcula el número de grupos automáticamente (mín. 2 grupos).
+      - Grupos K-Medias (KM): agrupamiento espacial 2D con K-Medias.
+        Requiere scikit-learn.
 
-    Características:
-      - Corrección de borde (retracción) para parcelas próximas al límite.
+    Características principales:
+      - Corrección de borde (retracción): aleja puntos de los límites del
+        área para que las parcelas queden íntegramente dentro del polígono.
       - Distancia mínima entre puntos con índice espacial O(n log n).
-      - IVMC calculado directamente en Python — sin procesamiento externo.
-      - Reporte HTML con métricas, gráficos y tiempo de ejecución.
+      - IVMC calculado directamente en Python, sin herramientas externas.
+        Factor de corrección sobre área real del polígono.
+      - Reporte HTML con métricas, gráficos comparativos y tiempo total.
       - Capas de resultados cargadas invisibles por defecto.
+      - Soporta mallas de hasta 50 000+ puntos (Orden Hilbert = 10).
       - Compatible con QGIS 3.28 LTR, 3.44 LTR y 4.0 (Qt5 / Qt6).
 
-    Dependencia opcional:
-      - shapely: motor acelerado para filtrado punto-en-polígono.
-        Incluido en QGIS 3.44 LTR y 4.0. Para versiones anteriores:
-        pip install shapely (en OSGeo4W Shell).
-      - scikit-learn: requerido para el método Grupos K-Medias.
-        pip install scikit-learn (en OSGeo4W Shell).
+    Dependencias opcionales:
+      - shapely: incluido en QGIS 3.44+ y 4.0. Versiones anteriores:
+        pip install shapely  (OSGeo4W Shell)
+      - scikit-learn: requerido para Grupos K-Medias.
+        pip install scikit-learn  (OSGeo4W Shell)
+
+    Requisito: SRC proyectado en metros (ej: CRTM05 EPSG:8908, UTM).
+
+    ── ENGLISH ──────────────────────────────────────────────────────────────
+
+    QGIS plugin implementing four spatial sampling strategies from a point
+    layer (sampling frame) and a polygon study area. Uses the Hilbert Curve
+    to create a spatial ordering that improves the distribution and
+    representativeness of systematic and stratified samples.
+
+    Sampling methods:
+      - Systematic Hilbert (SH): regular-interval selection along the curve.
+        Produces dispersed patterns (NNI > 1.2).
+      - Simple Random (AL): random sampling without replacement.
+      - Hilbert Groups (GH): 1D stratification based on the Hilbert order.
+        k=0 calculates the group count automatically (min. 2 groups).
+      - K-Means Groups (KM): 2D spatial clustering with K-Means.
+        Requires scikit-learn.
+
+    Key features:
+      - Edge correction (pullback): moves points away from the polygon
+        boundary so that sampling plots remain entirely within the area.
+      - Minimum distance between sample points using spatial index O(n log n).
+      - NNI (Nearest Neighbor Index) computed natively in Python — no
+        external Processing calls. Corrected over real polygon area.
+      - HTML report with metrics, comparative charts and total runtime.
+      - Result layers loaded as invisible by default.
+      - Supports grids of 50,000+ points with Hilbert Order = 10.
+      - Compatible with QGIS 3.28 LTR, 3.44 LTR and 4.0 (Qt5 / Qt6).
+
+    Optional dependencies:
+      - shapely: bundled with QGIS 3.44 LTR and 4.0. Earlier versions:
+        pip install shapely  (OSGeo4W Shell)
+      - scikit-learn: required for K-Means Groups method.
+        pip install scikit-learn  (OSGeo4W Shell)
+
+    Requirement: projected CRS in metres (e.g. UTM, CRTM05 EPSG:8908).
 
 tracker=https://github.com/jfallas56-CR/Muestreo_Espacial_Puntos/issues
 repository=https://github.com/jfallas56-CR/Muestreo_Espacial_Puntos
 homepage=https://github.com/jfallas56-CR/Muestreo_Espacial_Puntos
 
 hasProcessingProvider=yes
-tags=sampling,muestreo,hilbert,spatial,puntos,aleatorio,k-means,kmeans,inventario
+tags=sampling,muestreo,hilbert,spatial,puntos,points,aleatorio,random,k-means,kmeans,inventario,inventory,stratified,estratificado,nearest neighbor,ivmc,nni,forestal,forestry
 icon=icon.png
 experimental=False
 deprecated=False
