@@ -1,0 +1,42 @@
+[general]
+name=Muestreo Espacial de Puntos
+qgisMinimumVersion=3.28
+description=Muestreo espacial de puntos con Curva de Hilbert, Aleatorio, Grupos Hilbert y K-Medias. Incluye corrección de borde, distancia mínima, IVMC y reporte HTML.
+version=1.0.0
+author=Jorge Fallas
+email=jfallas56@gmail.com
+
+about=Complemento QGIS que implementa cuatro estrategias de muestreo espacial
+    a partir de una capa de puntos (marco muestral) y un área poligonal.
+
+    Métodos de muestreo:
+      - Sistemático Hilbert (SH): selección sistemática a lo largo de la curva de Hilbert.
+      - Aleatorio Simple (AL): muestreo aleatorio sin reemplazo.
+      - Grupos Hilbert (GH): estratificación 1D basada en el orden de Hilbert.
+      - Grupos K-Medias (KM): agrupamiento espacial 2D (requiere scikit-learn).
+
+    Características:
+      - Corrección de borde (retracción) para parcelas próximas al límite.
+      - Distancia mínima entre puntos con índice espacial O(n log n).
+      - IVMC calculado directamente en Python — sin procesamiento externo.
+      - Reporte HTML con métricas, gráficos y tiempo de ejecución.
+      - Capas de resultados cargadas invisibles por defecto.
+      - Compatible con QGIS 3.28 LTR, 3.44 LTR y 4.0 (Qt5 / Qt6).
+
+    Dependencia opcional:
+      - shapely: motor acelerado para filtrado punto-en-polígono.
+        Incluido en QGIS 3.44 LTR y 4.0. Para versiones anteriores:
+        pip install shapely (en OSGeo4W Shell).
+      - scikit-learn: requerido para el método Grupos K-Medias.
+        pip install scikit-learn (en OSGeo4W Shell).
+
+tracker=https://github.com/jfallas56-CR/Muestreo_Espacial_Puntos/issues
+repository=https://github.com/jfallas56-CR/Muestreo_Espacial_Puntos
+homepage=https://github.com/jfallas56-CR/Muestreo_Espacial_Puntos
+
+hasProcessingProvider=yes
+tags=sampling,muestreo,hilbert,spatial,puntos,aleatorio,k-means,kmeans,inventario
+icon=icon.png
+experimental=False
+deprecated=False
+server=False
