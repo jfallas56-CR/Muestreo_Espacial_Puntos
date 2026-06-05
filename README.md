@@ -46,6 +46,13 @@ cover type). Random selection within each stratum.
 stratum defined by a field of the polygon layer (e.g. buffer ID,
 parcel ID). Random selection within each polygon.
 
+Optional dependencies:
+- shapely: bundled with QGIS 3.44 LTR and 4.0. Earlier versions:
+pip install shapely (OSGeo4W Shell)
+- scikit-learn: required for K-Means Groups only.
+pip install scikit-learn (OSGeo4W Shell)
+
+Requirement: projected CRS in metres (e.g. UTM, CRTM05 EPSG:8908).
 ── ESPAÑOL ──────────────────────────────────────────────────────────────
 
 Complemento QGIS con siete métodos de muestreo espacial de puntos sobre
@@ -132,13 +139,6 @@ git clone https://github.com/jfallas56-CR/Muestreo_Espacial_Puntos.git
 ```
 
 ---
-
-## Dependencias Opcionales
-Optional dependencies:
-- shapely: bundled with QGIS 3.44 LTR and 4.0. Earlier versions:
-pip install shapely (OSGeo4W Shell)
-- scikit-learn: required for K-Means Groups only.
-pip install scikit-learn (OSGeo4W Shell)
 
 ```bash
 # OSGeo4W Shell (Windows)
