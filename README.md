@@ -9,7 +9,7 @@
 
 ---
 
-## Descripción
+## Description
 
 Spatial point sampling with 7 methods: Systematic Hilbert (SH) and Hilbert Groups (GH) use the Hilbert Curve for selection; Simple Random Sampling (SRS), Row-Column Groups (GFC), K-Means Groups (KM), and JSON-based Stratified by Points (Estr_Pts-AL) and by Polygon (Estr_Pol-AL) select randomly within their strata. 
 
