@@ -11,18 +11,95 @@
 
 ## Descripción
 
-Implements four spatial sampling methods (Systematic Hilbert, Random, Hilbert Groups, K-Means) using the Hilbert Curve. / Implementa cuatro métodos de muestreo espacial (Sistemático Hilbert, Aleatorio, Grupos Hilbert, K-Medias) usando la Curva de Hilbert.
+Spatial point sampling with 7 methods: Systematic Hilbert (SH) and Hilbert Groups (GH) use the Hilbert Curve for selection; Simple Random Sampling (SRS), Row-Column Groups (GFC), K-Means Groups (KM), and JSON-based Stratified by Points (Estr_Pts-AL) and by Polygon (Estr_Pol-AL) select randomly within their strata. 
+
+Key features:
+- Edge correction (pullback): moves points away from the polygon
+boundary so sampling plots remain entirely within the area.
+- Minimum inter-point distance enforced with spatial index O(n log n).
+- Corrected NNI (IVMC) computed natively in Python — no external
+Processing calls. Correction factor based on real polygon area.
+- HTML report with quality metrics, proportionality validation per
+group, comparative ranking, and total runtime.
+- Result layers loaded as invisible by default.
+- Supports grids of 50,000+ points (Hilbert Order = 10).
+- Compatible with QGIS 3.28 LTR, 3.44 LTR and 4.0 (Qt5 / Qt6).
 
 ---
+Sampling methods:
+- Systematic Hilbert (SH): fixed-interval selection along the Hilbert
+curve. Produces dispersed patterns (NNI > 1.2).
+- Hilbert Groups (GH): 1D stratification on the Hilbert order.
+k=0: automatic group count (k=min(ceil(sqrt(n)), floor(sqrt(N))), min. 2 groups).
+- Simple Random Sampling (SRS): random selection without replacement.
+Hilbert ordering used for diagnostic reporting only.
+- Row-Column Groups (GFC): sequential 1..N numbering of points
+following a NW-to-SE row traversal; partitioned into k equal groups
+with random selection within each group. No external dependencies.
+Produces a row-by-row line layer (Salida: Orden NO-SE).
+- K-Means Groups (KM): 2D spatial clustering. Point selection based
+entirely on geographic proximity. Requires scikit-learn.
+- Stratified by Points JSON (Estr_Pts-AL): variable sample sizes per
+stratum defined by a categorical field of the points layer (e.g.
+cover type). Random selection within each stratum.
+- Stratified by Polygon JSON (Estr_Pol-AL): variable sample sizes per
+stratum defined by a field of the polygon layer (e.g. buffer ID,
+parcel ID). Random selection within each polygon.
 
-## Métodos de Muestreo
+── ESPAÑOL ──────────────────────────────────────────────────────────────
 
-| Abrev. | Método | Descripción |
-|--------|--------|-------------|
-| **SH** | Sistemático Hilbert | Selección a intervalos regulares sobre la curva. Produce patrones dispersos (IVMC > 1,2). |
-| **AL** | Aleatorio Simple | Selección aleatoria sin reemplazo del marco muestral. |
-| **GH** | Grupos Hilbert | Estratificación 1D sobre el orden de Hilbert. k grupos lineales. |
-| **KM** | Grupos K-Medias | Agrupamiento espacial 2D. Requiere `scikit-learn`. |
+Complemento QGIS con siete métodos de muestreo espacial de puntos sobre
+una capa de puntos (marco muestral) y un polígono de área de estudio.
+
+SH y GH usan la Curva de Hilbert para el ordenamiento y la selección.
+AL selecciona aleatoriamente; el ordenamiento Hilbert se usa solo para el
+diagnóstico. GFC ordena los puntos por filas NO→SE (1..N) y los divide en
+k grupos iguales con selección aleatoria dentro de cada grupo, sin
+dependencias externas. KM agrupa por proximidad geográfica 2D con
+K-Medias; la Curva de Hilbert no interviene. Estr_Pts-AL y Estr_Pol-AL
+permiten tamaños de muestra variables por estrato definidos vía JSON,
+usando un campo de la capa de puntos o de la capa de polígonos como
+variable de estratificación, con selección aleatoria dentro de cada uno.
+
+Métodos de muestreo:
+- Sistemático Hilbert (SH): selección a intervalos regulares a lo
+largo de la curva. Produce patrones dispersos (IVMC > 1,2).
+- Grupos Hilbert (GH): estratificación 1D sobre el orden de Hilbert.
+k=0: número de grupos automático (k=mín(⌈√n⌉, ⌊√N⌋), mín. 2 grupos).
+- Aleatorio Simple (AL): selección aleatoria sin reemplazo.
+El ordenamiento Hilbert se usa solo para el diagnóstico del reporte.
+- Grupos Fila-Columna (GFC): numeración secuencial 1..N de los puntos
+siguiendo un recorrido de filas NO→SE; divididos en k grupos iguales
+con selección aleatoria dentro de cada grupo. Sin dependencias
+externas. Genera capa de líneas por fila (Salida: Orden NO→SE).
+- Grupos K-Medias (KM): agrupamiento espacial 2D con K-Medias.
+Selección basada en proximidad geográfica. Requiere scikit-learn.
+- Estratificado por Puntos JSON (Estr_Pts-AL): tamaños de muestra
+variables por estrato definidos por un campo categórico de la capa
+de puntos (ej. tipo de cobertura). Selección aleatoria en cada estrato.
+- Estratificado por Polígono JSON (Estr_Pol-AL): tamaños de muestra
+variables por estrato definidos por un campo de la capa de polígonos
+(ej. ID de búfer, ID de parcela). Selección aleatoria en cada polígono.
+
+Características principales:
+- Corrección de borde (retracción): aleja puntos de los límites del
+área para que las parcelas queden íntegramente dentro del polígono.
+- Distancia mínima entre puntos con índice espacial O(n log n).
+- IVMC calculado directamente en Python, sin herramientas externas.
+Factor de corrección sobre área real del polígono.
+- Reporte HTML con métricas de calidad, validación de proporcionalidad
+por grupo, ranking comparativo y tiempo total de ejecución.
+- Capas de resultados cargadas invisibles por defecto.
+- Soporta mallas de hasta 50 000+ puntos (Orden Hilbert = 10).
+- Compatible con QGIS 3.28 LTR, 3.44 LTR y 4.0 (Qt5 / Qt6).
+
+Dependencias opcionales:
+- shapely: incluido en QGIS 3.44 LTR y 4.0. Versiones anteriores:
+pip install shapely (OSGeo4W Shell)
+- scikit-learn: requerido únicamente para Grupos K-Medias.
+pip install scikit-learn (OSGeo4W Shell)
+
+Requisito: SRC proyectado en metros (ej: CRTM05 EPSG:8908, UTM).
 
 ---
 
@@ -57,11 +134,11 @@ git clone https://github.com/jfallas56-CR/Muestreo_Espacial_Puntos.git
 ---
 
 ## Dependencias Opcionales
-
-### Shapely — motor acelerado punto-en-polígono
-
-- **QGIS 3.44 LTR y 4.0+**: incluido automáticamente.
-- **QGIS 3.28 – 3.40**: instalar manualmente.
+Optional dependencies:
+- shapely: bundled with QGIS 3.44 LTR and 4.0. Earlier versions:
+pip install shapely (OSGeo4W Shell)
+- scikit-learn: required for K-Means Groups only.
+pip install scikit-learn (OSGeo4W Shell)
 
 ```bash
 # OSGeo4W Shell (Windows)
