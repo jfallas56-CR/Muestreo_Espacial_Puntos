@@ -53,6 +53,7 @@ pip install shapely (OSGeo4W Shell)
 pip install scikit-learn (OSGeo4W Shell)
 
 Requirement: projected CRS in metres (e.g. UTM, CRTM05 EPSG:8908).
+
 ── ESPAÑOL ──────────────────────────────────────────────────────────────
 
 Complemento QGIS con siete métodos de muestreo espacial de puntos sobre
